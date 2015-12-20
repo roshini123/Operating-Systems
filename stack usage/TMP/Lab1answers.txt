@@ -1,0 +1,26 @@
+Q. What are the advantages and disadvantages of each of the two scheduling policies and the original scheduling policy in XINU?
+Ans. 
+LINUX SCHEDULER:
+ADVANTAGES:
+1) There is no starvation as each process is allocated a quantum to execute based on the goodness value.
+2) The average response time is low as each process is scheduled based on goodness which considers the priority and the total ticks left.
+3) Each process is allowed to execute to its completion unless suspended and in that case a part of its quantum can be carried to the next epoch.
+DISADVANTAGES:
+1)	The average turnaround time is high
+2)	Blocking may cause system hanging
+MULTIQUEUE SCHEDULAR:
+ADVANTAGES:
+1)	There is no starvation.
+2)	As the processes are handled by two queues, the handling of processes is done well.
+3)	The real time processes are finished fast.
+DISADVANTAGES:
+1)	Requires random number generator
+
+Original Algorithm:
+DISADVANTAGES:
+1)	Starvation can occur
+Advantages:
+Processes with high priority are scheduled first serving the purpose of the priority. 
+
+
+

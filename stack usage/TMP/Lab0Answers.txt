@@ -1,0 +1,85 @@
+1. Assuming the XINU text begins at address 0x0, draw a rough diagram of XINU's memory layout with addresses derived from your experimental measurements. Include the information you uncovered from running your version of printsegaddress() and printprocstks().
+
+Ans:
+
+__________
+|  free  |
+|  mem   |
+|        |
+|________| base 0x00fffffc
+|        |
+|[prnull]| stack pointer 0x00ffff3c
+| stack2 | stack limit 0x00fff000
+|        |
+|________| base 0x00ffeff8
+|        |
+| [main] | stack pointer 0x00ffefa0
+| stack1 | 
+|        |
+|________|
+|  heap  |
+|________| ebss 0x00014358
+|  bss   |
+|________| edata 0x0000a540
+|  data  | 
+|________| etext 0x000089c2
+|  text  | 
+|________| 0x00000000
+
+2. What is the difference in stack top address before and after calling printtos() ? Draw a diagram to illustrate what are the contents of the items pushed into the stack between these two time points
+
+Ans: The stack top address before printtos():0x00ffefc0 
+                            after printtos():0x00ffefb8
+|stack top|
+|_________|
+|ret add  | 
+|_________|
+|         |
+|  ebp    |0x00ffefb8
+|_________|
+|  var A  |
+|_________|
+|  var B  |
+|_________|
+|  var C  |
+|_________|
+|  var D  |
+|_________|
+
+3. Which byte order is adopted in the host machine that we are using ? How did you find out ?
+
+Ans: Little Endian. The character c has one byte memory and so c gives 1 if little endian as last byte is stored first elseit returns 0.
+#include <stdio.h>
+int main() 
+{
+   int t = 1;
+   char *c = (char*)&t;
+   if (*c)    
+       printf("Little endian");
+   else
+       printf("Big endian");
+   getchar();
+   return 0;
+}
+
+4. Briefly describe the mov, push, pusha, pop, and popa instructions in the x86.
+
+Ans: In Intel format:
+
+mov destination,source - The copy of content is moved from source to destination.
+
+push - pushes the 4-byte data element onto the top of the stack( it grows downwards).
+
+pusha - pushes all general purpose registers onto stack
+
+pop -  removes 4 byte data element from the top of the stack
+
+popa - remove all general purpose registers from stack
+
+
+5. In a stack frame, local variables are stored below the top of the stack. In task 3, does your result show all the local variables declared in your printtos function? If not, can you explain that? (hint: try to disable the compiler optimization by specifing -O0 in your Makefile)
+
+Ans: No, not all the local variables are seen in the result.
+Disabling the compiler optimization will force the variables to fit in the stacks else they are stored into registers, so are not shown.
+
+
